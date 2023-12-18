@@ -15,4 +15,4 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_HUB_USERNAME }}/second-docker:latest .
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/your-repository-name:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/second-docker:latest

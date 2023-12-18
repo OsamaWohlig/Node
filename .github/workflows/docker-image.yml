@@ -1,0 +1,18 @@
+on: [push]
+jobs: 
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: Build and Push Docker Image
+        run: |
+          docker buildx create --use
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_HUB_USERNAME }}/second-docker:latest .
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/your-repository-name:latest
